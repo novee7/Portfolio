@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Novee7</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'MADE Outer Sans';
+            src: url('fonts/MADE Outer Sans Bold PERSONAL USE.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+    </style>
+    <script>
+        const isDesktopPointer = matchMedia('(pointer: fine)').matches;
+        if (isDesktopPointer) {
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) {
+                    e.preventDefault();
+                }
+            });
+            document.addEventListener('wheel', function(e) { if (e.ctrlKey) { e.preventDefault(); } }, { passive: false });
+        }
+    </script>
+</head>
+<body>
+    <video id="bgVideo" class="background-video" autoplay loop muted playsinline>
+        <source src="video/background.mp4" type="video/mp4">
+    </video>
+    
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader"></div>
+    </div>
+    <div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <span data-i18n="overlay.clickToEnter">Click to enter</span>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="glass-radio-group">
+            <input type="radio" name="nav" id="nav-home" checked />
+            <label for="nav-home" data-i18n="nav.home">Home</label>
+
+            <input type="radio" name="nav" id="nav-contact" />
+            <label for="nav-contact" data-i18n="nav.contact">Contact</label>
+
+            <input type="radio" name="nav" id="nav-misc" />
+            <label for="nav-misc" data-i18n="nav.misc">Misc.</label>
+
+            <div class="glass-glider"></div>
+        </div>
+    
+    <div id="miniPlayer" class="mini-player" aria-hidden="true">
+        <div class="mini-cover" id="miniCover" aria-hidden="true"></div>
+    <div class="mini-info" data-i18n-title="player.currentTrack" title="Current track">
+            <span id="miniTitle">—</span>
+        </div>
+        <div class="mini-controls">
+            <button class="mini-btn" id="miniPrev" title="Previous" aria-label="Previous" data-i18n-title="player.prev" data-i18n-aria-label="player.prev">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="transform:rotate(180deg)"><polygon points="4,4 16,12 4,20"/><rect x="18" y="4" width="2" height="16"/></svg>
+            </button>
+            <button class="mini-btn" id="miniPlay" title="Play" aria-label="Play" data-i18n-title="player.play" data-i18n-aria-label="player.play">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
+            </button>
+            <button class="mini-btn" id="miniPause" title="Pause" aria-label="Pause" data-i18n-title="player.pause" data-i18n-aria-label="player.pause" style="display:none;">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <button class="mini-btn" id="miniNext" title="Next" aria-label="Next" data-i18n-title="player.next" data-i18n-aria-label="player.next">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><polygon points="4,4 16,12 4,20"/><rect x="18" y="4" width="2" height="16"/></svg>
+            </button>
+        </div>
+    </div>
+    <div class="sections">
+    <section id="home" class="section section-home active">
+    <div class="profile-card">
+            <div class="pattern-bg">
+                <svg preserveAspectRatio="xMidYMid slice" height="100%" width="100%" class="cube-svg" viewBox="0 0 120 104">
+                    <defs>
+                        <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="cube-dark">
+                            <stop stop-color="#232526" offset="0%"></stop>
+                            <stop stop-color="#414345" offset="100%"></stop>
+                        </linearGradient>
+                        <linearGradient y2="0%" x2="100%" y1="100%" x1="0%" id="cube-mid">
+                            <stop stop-color="#4b6cb7" offset="0%"></stop>
+                            <stop stop-color="#182848" offset="100%"></stop>
+                        </linearGradient>
+                        <linearGradient y2="100%" x2="0%" y1="0%" x1="100%" id="cube-light">
+                            <stop stop-color="#a8edea" offset="0%"></stop>
+                            <stop stop-color="#fed6e3" offset="100%"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="profile-container">
+                <div class="profile-img-container">
+                    <img src="png/novee7.png" class="profile-img" data-i18n-alt="profile.photoAlt" alt="Discord profile photo">
+                    <div id="discord-status" class="profile-status" aria-describedby="statusTip"></div>
+                    <div id="statusTip" class="profile-status-tooltip" role="tooltip" data-i18n="profile.statusTooltip">Discord status</div>
+                </div>
+                <div class="profile-info">
+                    <img class="profile-name" src="png/hero.png" data-i18n-alt="profile.heroAlt" alt="novee image"></img>
+                    <div class="social-icons">
+                        <a href="https://www.youtube.com/@novecalante" target="_blank" rel="noopener" class="social-icon youtube" title="YouTube">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/novee7" target="_blank" rel="noopener" class="social-icon github" title="GitHub">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://open.spotify.com/user/31oo6o6j5ftxvwkb4q5xu7swcyqa?si=21b4790e9d2f4d54" target="_blank" rel="noopener" class="social-icon spotify" title="Spotify">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                            </svg>
+                        </a>
+                        <a href="http://discord.itaprac.xyz/" target="_blank" rel="noopener" class="social-icon discord" title="Discord">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.057c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.027zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="bgblue">
+        <div class="card" data-i18n="intro.about">Hello, I’m Nove, 16, a passionate Web Developer, Minecraft Stack Developer and Java Developer. In my free time I build neat websites, commission plugins (even free), and I own two projects: Italian Practice and Nexa Development; I’m also a Manager at the Italian Vanilla Tierlist.</div>
+    </div>
+
+    <div class="audio-player compact">
+        <div class="album-cover small" id="albumCover"></div>
+        <div class="player-controls compact">
+            <div class="song-info compact">
+                <div class="song-title" id="songTitle">Loading...</div>
+                <p class="artist" id="songArtist">Loading...</p>
+            </div>
+            <div class="progress-row">
+                <div class="progress-container">
+                    <span class="current-time" id="currentTime">00:00</span>
+                    <div class="progress-bar compact">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    <span class="duration" id="duration">00:00</span>
+                </div>
+                <div class="buttons compact">
+                <button class="rewind5-btn" id="rewind5Btn" title="Rewind 5 seconds" data-i18n-title="player.rewind5" style="display:flex;align-items:center;justify-content:center;padding:0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;margin:auto;">
+                        <path d="M4,12 A8,8 0 1,1 12,20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+                        <text x="8" y="14" font-size="8" font-family="Arial" fill="currentColor">5</text>
+                        <polygon points="4,8 4,12 8,10" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button class="prev-btn" id="prevBtn" title="Previous" data-i18n-title="player.prev" style="display:flex;align-items:center;justify-content:center;padding:0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;margin:auto;transform:rotate(180deg)"><polygon points="4,4 16,12 4,20"/><rect x="18" y="4" width="2" height="16"/></svg>
+                </button>
+                <button class="play-btn" id="playBtn" title="Play" data-i18n-title="player.play" style="display:flex;align-items:center;justify-content:center;padding:0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;margin:auto;"><polygon points="6,4 20,12 6,20"/></svg>
+                </button>
+                <button class="pause-btn" id="pauseBtn" title="Pause" data-i18n-title="player.pause" style="display:flex;align-items:center;justify-content:center;padding:0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;margin:auto;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                </button>
+                <button class="next-btn" id="nextBtn" title="Next" data-i18n-title="player.next" style="display:flex;align-items:center;justify-content:center;padding:0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;margin:auto;"><polygon points="4,4 16,12 4,20"/><rect x="18" y="4" width="2" height="16"/></svg>
+                </button>
+                <button class="forward5-btn" id="forward5Btn" title="Forward 5 seconds" data-i18n-title="player.forward5" style="display:flex;align-items:center;justify-content:center;padding:0;">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:block;margin:auto;">
+                        <path d="M20,12 A8,8 0 1,0 12,20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"/>
+                        <text x="12" y="14" font-size="8" font-family="Arial" fill="currentColor">5</text>
+                        <polygon points="20,8 20,12 16,10" fill="currentColor"/>
+                    </svg>
+                </button>
+                <div class="volume-control">
+                    <button class="volume-btn" id="volumeBtn" title="Volume" data-i18n-title="player.volume">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>
+                        </svg>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="10">
+                    </div>
+                </div>
+            </div>
+        </div>
+    <audio id="audio"></audio>
+    </section>
+
+    <section id="contact" class="section section-contact">
+            <h2 class="contact-heading" data-i18n="contact.heading">Contact me</h2>
+            <div class="contact-form-card">
+                <h3 data-i18n="contact.writeMe">Write me!</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="cf-name" data-i18n="contact.discordName">Discord name</label>
+                        <input type="text" id="cf-name" data-i18n-placeholder="contact.discordNamePh" placeholder="Your Discord name" autocomplete="name" required />
+                    </div>
+            <div class="form-field">
+                        <label for="cf-email-user" data-i18n="contact.email">Email</label>
+                        <div class="email-group" role="group">
+                            <input type="text" id="cf-email-user" data-i18n-placeholder="contact.emailUserPh" placeholder="name" inputmode="email" autocomplete="username" required />
+                            <span class="at-sep" aria-hidden="true">@</span>
+                            <input type="text" id="cf-email-domain" data-i18n-placeholder="contact.emailDomainPh" placeholder="gmail.com" inputmode="email" autocomplete="domain" />
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="cf-type" data-i18n="contact.type.label">Request type</label>
+                        <select id="cf-type" required>
+                            <option value="" selected disabled data-i18n="contact.selectPrompt">Click to choose</option>
+                            <option value="Portfolio" data-i18n="contact.type.portfolio">Portfolio</option>
+                            <option value="Plugin/Mod Minecraft" data-i18n="contact.type.plugin">Plugin/Mod Minecraft</option>
+                            <option value="Altro" data-i18n="contact.type.other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="cf-budget" data-i18n="contact.budget.label">Budget</label>
+                        <select id="cf-budget" required>
+                            <option value="" selected disabled data-i18n="contact.selectPrompt">Click to choose</option>
+                            <option value="Gratis" data-i18n="contact.budget.free">Free</option>
+                            <option value="5-10€+" data-i18n="contact.budget.b5_10">5-10€+</option>
+                            <option value="10-25€+" data-i18n="contact.budget.b10_25">10-25€+</option>
+                            <option value="25-50€+" data-i18n="contact.budget.b25_50">25-50€+</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="cf-time" data-i18n="contact.time.label">Time</label>
+                        <select id="cf-time" required>
+                            <option value="" selected disabled data-i18n="contact.selectPrompt">Click to choose</option>
+                            <option value="Veloce" data-i18n="contact.time.fast">Fast (1-2 weeks)</option>
+                            <option value="Normale" data-i18n="contact.time.normal">Normal (1 month)</option>
+                            <option value="Flessibile" data-i18n="contact.time.flexible">Flexible (1+ months)</option>
+                        </select>
+                    </div>
+                    <div class="form-field full">
+                        <label for="cf-message"><span data-i18n="contact.details">Details</span> <span class="char-counter" id="cf-counter" aria-live="polite">(0/1000)</span></label>
+                        <textarea id="cf-message" rows="5" data-i18n-placeholder="contact.detailsPh" placeholder="Write the request details here..." maxlength="1000" required></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-neutral" id="contactCopyBtn" data-webhook="https://discord.com/api/webhooks/1271929927708573759/ppmCTlzZGKmEJZu7Y4V0GkLA25OwfWfUfxmgO-DH0Scc-nxGvq6v9_E8Px8NpElbHpzW" data-i18n="contact.sendDiscord">Send to Discord</button>
+                </div>
+            </div>
+
+            <div class="contact-row">
+                <div class="contact-card">
+                    <p data-i18n="contact.dmWarning">Not recommended, my DMs are closed; tag me in servers only if I’m online →</p>
+                    <div class="contact-actions">
+                        <button class="btn btn-neutral" id="copyDiscord" data-i18n="contact.copyDiscordId">Copy Discord ID</button>
+                    </div>
+                </div>
+                <a class="lanyard-badge" target="_blank" rel="noopener">
+                    <img src="https://lanyard.cnrad.dev/api/779084859548368937?showDisplayName=true" data-i18n-alt="contact.lanyardAlt" alt="Discord Presence Badge"/>
+                </a>
+            </div>
+        </section>
+
+    <section id="misc" class="section section-misc">
+            <div class="misc-grid">
+                <div class="misc-card">
+                    <a class="card-link" href="#obs">
+                    <div class="hover-card">
+                        <div class="hover-card-details">
+                            <div class="media-preview">
+                                <img src="png/obs.png" data-i18n-alt="misc.obs.alt" alt="OBS Renders preview" />
+                            </div>
+                            <p class="hover-text-title" data-i18n="misc.obs.title">OBS Renders</p>
+                            <p class="hover-text-body" data-i18n="misc.obs.desc">All kinds of renders for OBS Studio</p>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+                <div class="misc-card">
+                    <div class="card-link is-disabled" aria-disabled="true">
+                        <div class="hover-card">
+                            <div class="hover-card-details">
+                                <div class="media-preview">
+                                    <img class="spoiler" src="png/smoothie.svg" data-i18n-alt="misc.smoothie.alt" alt="Smoothie preview" />
+                                </div>
+                                <p class="hover-text-title spoiler" data-i18n="misc.smoothie.title">Smoothie</p>
+                                <p class="hover-text-body" data-i18n="misc.soon">Release soon...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="misc-card">
+                    <div class="card-link is-disabled" aria-disabled="true">
+                    <div class="hover-card">
+                        <div class="hover-card-details">
+                            <div class="media-preview">
+                                <img class="spoiler" src="png/vegas.png" data-i18n-alt="misc.vegas.alt" alt="Vegas Renders preview" />
+                            </div>
+                            <p class="hover-text-title spoiler" data-i18n="misc.vegas.title">Vegas Renders</p>
+                            <p class="hover-text-body" data-i18n="misc.soon">Release soon...</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="obs" class="section section-obs">
+            <div class="content-card">
+                <h1 data-i18n="obs.title">OBS Renders</h1>
+                <p data-i18n="obs.pageDesc">Page dedicated to OBS renders</p>
+
+                <p class="obs-note" data-i18n="obs.note" style="font-size:0.98em; color:#bdbdbd; margin:8px 0 18px 0; font-family:'Inter',Arial,sans-serif;"></p>
+                <div class="obs-actions">
+                    <a class="btn btn-neutral" href="#misc" data-i18n="obs.back">Go back</a>
+                </div>
+                <div class="obs-grid">
+                    <div class="obs-card loading" data-progress="0">
+                        <div class="obs-media" style="position:relative;">
+                            <video data-src="video/4k - 240FPS.mp4?v=1" playsinline muted loop preload="metadata"></video>
+                            <div class="obs-loading">
+                                <div class="obs-loading-text" data-i18n="obs.loading">Loading...</div>
+                                <div class="obs-progress"><div class="obs-progress-bar"></div></div>
+                                <div class="obs-progress-pct">0%</div>
+                            </div>
+                        </div>
+                        <div class="obs-info">
+                            <h3 class="obs-title">4K - 240 FPS</h3>
+                            <p class="obs-desc" data-i18n="obs.credit" data-credit-author="itz_Crih">Crediti a itz_Crih per la clip</p>
+                                                                                    <h4 style="margin:18px 0 8px 0; font-size:1.15em; color:#fff; text-align:center; font-family:'MADE Outer Sans', 'Inter', Arial, sans-serif; letter-spacing:0.04em;">RENDERS</h4>
+                                                                                    <div style="color:#bdbdbd; text-align:center; font-size:0.98em; font-family:'Inter',Arial,sans-serif; margin-bottom:10px;">
+                                                                                        <span data-i18n="obs.4k240tech">Risoluzione 3840 x 2160 sia in entrata che in uscita, 240 FPS - Encoder settings QuickSync AV1 (Intel Arc B580) CQP 13, TU7 &amp; Latency ultra low, dipende dal tipo di encoder che usate, nel caso di GPU Nvidia usate NVEC e AMD, AMF.</span>
+                                                                                    </div>
+                            <div class="obs-screenshots" style="margin-top:16px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+                                <img class="fullscreenable" src="png/render/4k 240 FPS/screen1.png" alt="4K 240 FPS screenshot 1" style="max-width:320px; border-radius:10px; box-shadow:0 2px 12px #0008; cursor:pointer;">
+                                <img class="fullscreenable" src="png/render/4k 240 FPS/screen2.png" alt="4K 240 FPS screenshot 2" style="max-width:320px; border-radius:10px; box-shadow:0 2px 12px #0008; cursor:pointer;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="obs-card loading" data-progress="0">
+                        <div class="obs-media" style="position:relative;">
+                            <video data-src="video/1080p - 180 FPS.mp4" playsinline muted loop preload="metadata"></video>
+                            <div class="obs-loading">
+                                <div class="obs-loading-text" data-i18n="obs.loading">Loading...</div>
+                                <div class="obs-progress"><div class="obs-progress-bar"></div></div>
+                                <div class="obs-progress-pct">0%</div>
+                            </div>
+                        </div>
+                        <div class="obs-info">
+                            <h3 class="obs-title">1080p - 180 FPS</h3>
+                            <p class="obs-desc" data-i18n="obs.180desc">Clip fatta da me</p>
+                                                        <h4 style="margin:18px 0 8px 0; font-size:1.15em; color:#fff; text-align:center; font-family:'MADE Outer Sans', 'Inter', Arial, sans-serif; letter-spacing:0.04em;">RENDERS</h4>
+                                                                                    <div style="color:#bdbdbd; text-align:center; font-size:0.98em; font-family:'Inter',Arial,sans-serif; margin-bottom:10px;">
+                                                                                        <span data-i18n="obs.180tech">Risoluzione 1920 x 1080 sia in entrata che in uscita, 180 FPS - Encoder settings QuickSync AV1 (Intel Arc B580) CQP 14-18, TU7 &amp; Latency ultra low, dipende dal tipo di encoder che usate, nel caso di GPU Nvidia usate NVENC e AMD, AMF.</span>
+                                                                                    </div>
+                                                        <div class="obs-screenshots" style="margin-top:16px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+                                                                <img class="fullscreenable" src="png/render/1080p 180 FPS/screen1.png" alt="1080p 180 FPS screenshot 1" style="max-width:320px; border-radius:10px; box-shadow:0 2px 12px #0008; cursor:pointer;">
+                                                                <img class="fullscreenable" src="png/render/1080p 180 FPS/screen2.png" alt="1080p 180 FPS screenshot 2" style="max-width:320px; border-radius:10px; box-shadow:0 2px 12px #0008; cursor:pointer;">
+                                                        </div>
+                        </div>
+                    </div>
+                    <div class="obs-card loading" data-progress="0">
+                        <div class="obs-media" style="position:relative;">
+                            <video data-src="video/1080p - 120FPS.MP4" playsinline muted loop preload="metadata"></video>
+                            <div class="obs-loading">
+                                <div class="obs-loading-text" data-i18n="obs.loading">Loading...</div>
+                                <div class="obs-progress"><div class="obs-progress-bar"></div></div>
+                                <div class="obs-progress-pct">0%</div>
+                            </div>
+                        </div>
+                        <div class="obs-info">
+                            <h3 class="obs-title">1080p - 120 FPS</h3>
+                            <p class="obs-desc" data-i18n="obs.credit" data-credit-author="NewCheater">Credits to NewCheater for the clip</p>
+                            <h4 style="margin:18px 0 8px 0; font-size:1.15em; color:#fff; text-align:center; font-family:'MADE Outer Sans', 'Inter', Arial, sans-serif; letter-spacing:0.04em;">RENDERS</h4>
+                            <div style="color:#bdbdbd; text-align:center; font-size:0.98em; font-family:'Inter',Arial,sans-serif; margin-bottom:10px;">
+                                <span data-i18n="obs.120tech">Risoluzione 1920 x 1080 sia in entrata che in uscita, 120 FPS - Encoder settings QuickSync AV1 (Intel Arc B580) CQP 18, TU5 &amp; Latency ultra low, dipende dal tipo di encoder che usate, nel caso di GPU Nvidia usate NVENC e AMD, AMF.</span>
+                            </div>
+                            <div class="obs-screenshots" style="margin-top:16px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+                                <img class="fullscreenable" src="png/render/1080p 120 FPS/screen1.png" alt="1080p 120 FPS screenshot 1" style="max-width:320px; border-radius:10px; box-shadow:0 2px 12px #0008; cursor:pointer;">
+                                <img class="fullscreenable" src="png/render/1080p 120 FPS/screen2.png" alt="1080p 120 FPS screenshot 2" style="max-width:320px; border-radius:10px; box-shadow:0 2px 12px #0008; cursor:pointer;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <button id="langFab" class="settings-fab lang-fab" aria-haspopup="menu" aria-expanded="false" data-i18n-title="language.title" title="Language">
+            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.17 122.88" width="22" height="22" aria-hidden="true">
+                <defs><style>.cls-1{fill-rule:evenodd;}</style></defs>
+                <title>translation</title>
+                <path class="cls-1" fill="currentColor" d="M23.46,98.8l24-7.22-4.24,7.8c8.69,7.36,17.64,9.33,27.58,5.08-9.36,14.77-23.85,16.47-36,10.47l-4.33,7.95-7-24.08ZM23,35.33h9.93V32.77a.33.33,0,0,1,.33-.33H37.8a.33.33,0,0,1,.33.33v2.56h10a.33.33,0,0,1,.33.33v4.75a.32.32,0,0,1-.33.32H46.27a21.5,21.5,0,0,1-.91,4,25,25,0,0,1-1.73,4A32,32,0,0,1,41.55,52c-.72,1-1.51,2-2.35,3a40.33,40.33,0,0,0,4.63,4.61l0,0a55.4,55.4,0,0,0,5.82,4.28.32.32,0,0,1,.1.45l-2.35,3.68a.35.35,0,0,1-.46.1,60.53,60.53,0,0,1-6.24-4.58,44.58,44.58,0,0,1-5-4.9c-1.29,1.23-2.65,2.43-4.07,3.58-1.61,1.29-3.29,2.54-5,3.73a.33.33,0,0,1-.46-.08l-2.47-3.59a.31.31,0,0,1,.08-.45c1.69-1.17,3.34-2.4,4.91-3.68,1.39-1.13,2.72-2.3,3.95-3.51a39.71,39.71,0,0,1-3.15-5.61,44.72,44.72,0,0,1-2.43-6.63.34.34,0,0,1,.23-.4l4.21-1.18a.32.32,0,0,1,.4.23,39.2,39.2,0,0,0,1.92,5.38,37.33,37.33,0,0,0,2.32,4.39c.55-.69,1.07-1.37,1.55-2.06s1.06-1.64,1.51-2.48a19.68,19.68,0,0,0,1.29-2.91,18.87,18.87,0,0,0,.69-2.69H23a.32.32,0,0,1-.33-.32V35.66a.33.33,0,0,1,.33-.33Zm49.5,4.26h32.38a12.38,12.38,0,0,1,12.33,12.34V78a12.38,12.38,0,0,1-12.33,12.34h-1l-.66,9.89a2.62,2.62,0,0,1-4.19,2L83.25,90.35H63.18A12.38,12.38,0,0,1,50.86,78.53H38.67L20.35,93A4.57,4.57,0,0,1,13,89l.8-10.55a14.92,14.92,0,0,1-9.38-4.35l-.28-.3A14.94,14.94,0,0,1,0,63.56V35.71a15,15,0,0,1,15-15H57.49a14.91,14.91,0,0,1,10.57,4.39l.28.29a15,15,0,0,1,4.12,10.28v3.88Zm31.69-14.72L79.31,28.23l5.41-7c-7.42-8.63-16-12-26.43-9.35C69.85-1.26,84.43-.67,95.52,7.17L101,0l3.11,24.87ZM91.58,70.09h-8l-1.48,5H74.89c2.4-6.37,5.18-14,7.59-20.4.87-2.3,1.86-6.12,5-6.12s4.36,3.5,5.27,5.92l7.71,20.71H93.1l-1.52-5.14Zm-1.21-4.9-2.79-8.78-2.8,8.78ZM15,25.32H57.49A10.43,10.43,0,0,1,67.88,35.71V63.56A10.42,10.42,0,0,1,57.49,74H37.09L17.53,89.37,18.69,74H15A10.41,10.41,0,0,1,4.58,63.56V35.71A10.42,10.42,0,0,1,15,25.32Z"/>
+            </svg>
+        </button>
+        <div id="langMenu" class="lang-menu" role="menu" aria-hidden="true">
+            <button class="lang-item" data-lang="en" aria-label="English" title="English">
+                <img class="lang-flag" src="png/flags/united-kingdom.png" alt="English" />
+            </button>
+            <button class="lang-item" data-lang="it" aria-label="Italiano" title="Italiano">
+                <img class="lang-flag" src="png/flags/italy.png" alt="Italiano" />
+            </button>
+            <button class="lang-item" data-lang="fr" aria-label="Français" title="Français">
+                <img class="lang-flag" src="png/flags/france.png" alt="Français" />
+            </button>
+            <button class="lang-item" data-lang="es" aria-label="Español" title="Español">
+                <img class="lang-flag" src="png/flags/spain.png" alt="Español" />
+            </button>
+        </div>
+
+    <button id="settingsFab" class="settings-fab" aria-haspopup="dialog" aria-controls="settingsModal" data-i18n-title="settings.title" title="Settings">⚙</button>
+        <div id="settingsModal" class="settings-modal" aria-hidden="true">
+            <div class="settings-dialog" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+                <div class="settings-header">
+                    <h3 id="settingsTitle" data-i18n="settings.title">Settings</h3>
+                    <button class="settings-close" id="settingsClose" data-i18n-aria-label="settings.close" aria-label="Close">✕</button>
+                </div>
+                <div class="settings-body">
+                    <label class="setting-row">
+                        <input type="checkbox" id="settingBgVideo" />
+                        <span data-i18n="settings.bgVideo">Show background video</span>
+                    </label>
+                    <label class="setting-row">
+                        <input type="checkbox" id="settingMiniOut" />
+                        <span data-i18n="settings.miniOut">Show audio player outside Home</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <section id="vegas" class="section section-vegas">
+            <div class="content-card">
+                <h1 data-i18n="vegas.title">Vegas Renders</h1>
+                <p data-i18n="vegas.pageDesc">Page dedicated to Vegas Renders. Content coming soon.</p>
+            </div>
+        </section>
+
+        <section id="smoothie" class="section section-smoothie">
+            <div class="content-card">
+                <h1 data-i18n="smoothie.title">Smoothie</h1>
+                <p data-i18n="smoothie.pageDesc">Smoothie recipies</p>
+                <div class="obs-actions">
+                    <a class="btn btn-neutral" href="#misc" data-i18n="obs.back">Go back</a>
+                </div>
+                <div class="obs-grid">
+                    <div class="obs-card loading" data-progress="0">
+                        <div class="obs-media">
+                            <video data-src="video/smoothie.mp4" playsinline muted loop preload="metadata"></video>
+                        </div>
+                        <div class="obs-loading">
+                            <div class="obs-loading-text" data-i18n="obs.loading">Loading...</div>
+                            <div class="obs-progress"><div class="obs-progress-bar"></div></div>
+                            <div class="obs-progress-pct">0%</div>
+                        </div>
+                        <div class="obs-info">
+                            <h3 class="obs-title">Smoothie Example</h3>
+                            <p class="obs-desc" data-i18n="smoothie.pageDesc">Smoothie recipies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+    </div>
+
+    <footer class="simple-footer">
+        <div class="footer-divider"></div>
+        <div class="footer-info">
+            <div class="footer-section left">
+                <a id="earlyAccessBtn" href="#contact" class="btn-shine" data-i18n="footer.earlyAccess">Get early access</a>
+            </div>
+            <div class="footer-section center">
+                <p class="copyright">© 2025 nove</p>
+            </div>
+            <div class="footer-section right">
+                <a href="http://discord.itaprac.xyz/" target="_blank" rel="noopener" class="project-link">ITAPRAC</a>
+                <a href="https://dsc.gg/itavtl" target="_blank" rel="noopener" class="project-link">ITAVTL</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
