@@ -13,6 +13,7 @@ Cool website with a music player, contact and a blog.
 1. Download the site via ZIP.
 2. Unzip it.
 3. You're ready to go!
+
 ![Release](https://img.shields.io/github/v/release/novee7/Portfolio?style=for-the-badge)
 
 ---
